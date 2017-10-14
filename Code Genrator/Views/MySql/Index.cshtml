@@ -1,0 +1,72 @@
+﻿@model Code_Genrator.Models.HomeViewModel
+<script src="/Scripts/genrate_events.js"></script>
+<script src="/Scripts/genrate_methods.js"></script>
+<label>Data Source</label>
+<input type="text" id="txtDBName" name="DB_Name" value="@Model.DB_Name"> 
+
+<input type="button" id="btnGetTables" value="GetTables"/>
+<br>
+<select id="drpTables" style="display:none">
+    
+</select>
+
+<input type="button" id="btnGenrate" style="display:none;" value="Genrate Code">
+
+
+<div id="dvCode">
+</div>
+
+<script>
+
+    $(function () {
+
+        $("#btnGetTables").click(function () {
+
+            $.ajax({
+                url: "/Home/Get_Table_Names",
+
+                data: { DBName: $("#txtDBName").val() },
+
+                method: 'GET',
+
+                async: false,
+
+                success: function (data) {
+
+                    alert("Success");
+                    BindTables(data);
+
+                }
+            });
+        });
+
+        $("#drpTables").change(function () {
+            if ($(this).val() != "") {
+                $("#btnGenrate").show();
+            }
+            else {
+                $("#btnGenrate").hide();
+            }
+        });
+
+        $("#btnGenrate").click(function () {
+
+
+            $("#dvCode").load("/Home/GenrateCode", { DBName: $("#txtDBName").val(), TableName: $("#drpTables").val() })
+        });
+
+
+
+    });
+
+    function BindTables(data) {
+        $("#drpTables").show();
+        var htmlText = "";
+        htmlText += "<option value=''>- Select table-</option>"
+        for (var i = 0; i < data.Tables.length; i++) {
+            htmlText += "<option value='" + data.Tables[i] + "'>" + data.Tables[i] + "</option>";
+        }
+
+        $("#drpTables").html(htmlText);
+    }
+    </script>

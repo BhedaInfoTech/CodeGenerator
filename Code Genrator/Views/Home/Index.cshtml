@@ -1,0 +1,17 @@
+﻿@model Code_Genrator.Models.HomeViewModel
+<script src="/Scripts/genrate_events.js"></script>
+<script src="/Scripts/genrate_methods.js"></script>
+<label>Data Source</label>
+<input type="text" id="txtDBName" name="DB_Name" value="@Model.DB_Name"> 
+
+<input type="button" id="btnGetTables" value="GetTables"/>
+<br>
+<select id="drpTables" style="display:none">
+    
+</select>
+
+<input type="button" id="btnGenrate" style="display:none;" value="Genrate Code">
+
+@*<a href="@Url.Action("Index","Mysql")">MySql</a>*@
+    <div id="dvCode">
+    </div>
